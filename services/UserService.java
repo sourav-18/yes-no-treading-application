@@ -1,8 +1,10 @@
 package com.ms.yes_no_treading_application.services;
 
 import com.ms.yes_no_treading_application.Mapper.UserMapper;
+import com.ms.yes_no_treading_application.dtos.UserDto;
 import com.ms.yes_no_treading_application.dtos.UserSignupRequestDto;
 import com.ms.yes_no_treading_application.entities.UserEntity;
+import com.ms.yes_no_treading_application.exceptions.UserAlreadyExist;
 import com.ms.yes_no_treading_application.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +18,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void signup(UserSignupRequestDto userSignupRequestDto){
-        UserEntity isUserExist=userRepository.findByEmail(userSignupRequestDto.getEmail());
-        if(isUserExist!=null){
-            throw new RuntimeException("error");
+    public UserDto signup(UserSignupRequestDto userSignupRequestDto) {
+        UserEntity isUserExist = userRepository.findByEmail(userSignupRequestDto.getEmail());
+        if (isUserExist != null) {
+            throw new UserAlreadyExist("email", userSignupRequestDto.getEmail());
         }
-
-        userRepository.save(UserMapper.toEntity(userSignupRequestDto));
+        UserEntity newUser = userRepository.save(UserMapper.toEntity(userSignupRequestDto));
+        return UserMapper.toDto(newUser);
     }
 }

@@ -39,4 +39,10 @@ public class GlobalExceptionHandler {
                 .body(new ApiErrorResponseDto(HttpStatus.BAD_REQUEST.value(),errorsMessage));
     }
 
+    @ExceptionHandler(UserAlreadyExist.class)
+    public ResponseEntity<ApiErrorResponseDto> handleValidationException(UserAlreadyExist ex) {
+        return ResponseEntity.status(ex.getStatusCode())
+                .body(new ApiErrorResponseDto(ex.getStatusCode(),ex.getMessage()));
+    }
+
 }
