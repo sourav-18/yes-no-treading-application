@@ -1,4 +1,4 @@
-package com.ms.yes_no_treading_application.Mapper;
+package com.ms.yes_no_treading_application.mapper;
 
 import com.ms.yes_no_treading_application.dtos.UserDto;
 import com.ms.yes_no_treading_application.dtos.UserSignupRequestDto;

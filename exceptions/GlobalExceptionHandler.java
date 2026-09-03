@@ -7,12 +7,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -39,10 +37,31 @@ public class GlobalExceptionHandler {
                 .body(new ApiErrorResponseDto(HttpStatus.BAD_REQUEST.value(),errorsMessage));
     }
 
-    @ExceptionHandler(UserAlreadyExist.class)
-    public ResponseEntity<ApiErrorResponseDto> handleValidationException(UserAlreadyExist ex) {
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<ApiErrorResponseDto> handleValidationException(UserAlreadyExistException ex) {
         return ResponseEntity.status(ex.getStatusCode())
                 .body(new ApiErrorResponseDto(ex.getStatusCode(),ex.getMessage()));
     }
+
+    @ExceptionHandler(InvalidEventPriceException.class)
+    public ResponseEntity<ApiErrorResponseDto> handleValidationException(InvalidEventPriceException ex) {
+        return ResponseEntity.status(ex.getStatusCode())
+                .body(new ApiErrorResponseDto(ex.getStatusCode(),ex.getMessage()));
+    }
+
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<ApiErrorResponseDto> handleDateNotFoundException(DataNotFoundException ex) {
+        return ResponseEntity.status(ex.getStatusCode())
+                .body(new ApiErrorResponseDto(ex.getStatusCode(),ex.getMessage()));
+    }
+
+////    @ExceptionHandler(DateTimeParseException.class)
+//    public ResponseEntity<ApiErrorResponseDto> handleInvalidDateTime(DateTimeParseException ex) {
+//        System.out.println("enter");
+//        System.out.println(ex.getParsedString());
+//        return null;
+////        return ResponseEntity.status(ex.getStatusCode())
+////                .body(new ApiErrorResponseDto(ex.getStatusCode(),ex.getMessage()));
+//    }
 
 }

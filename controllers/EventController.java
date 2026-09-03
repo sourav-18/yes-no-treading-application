@@ -2,6 +2,7 @@ package com.ms.yes_no_treading_application.controllers;
 
 import com.ms.yes_no_treading_application.dtos.*;
 import com.ms.yes_no_treading_application.services.EventService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +20,15 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponseDto<EventDto>> create(@RequestBody EventCreateRequestDto body){
+    public ResponseEntity<ApiResponseDto<EventDto>> create(@Valid @RequestBody EventCreateRequestDto body){
         EventDto eventDto=eventService.create(body);
         ApiResponseDto<EventDto> apiResponse =
                 new ApiResponseDto<>(HttpStatus.CREATED.value(), "Event created successfully",eventDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
+
+//    @PostMapping
+//    public ResponseEntity<EventCreateRequestDto> create(@Valid @RequestBody EventCreateRequestDto body){
+//        return ResponseEntity.status(HttpStatus.CREATED).body(body);
+//    }
 }

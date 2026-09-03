@@ -2,9 +2,12 @@ package com.ms.yes_no_treading_application.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -23,11 +26,14 @@ public class UserEntity extends BaseEntity{
     @Column(nullable = false)
     private String password;
 
-    @ColumnDefault("0")
-    @Column(nullable = false,name = "deposit_balance")
-    private Double depositBalance= 0.0;
 
-    @ColumnDefault("0")
-    @Column(nullable = false,name = "win_balance")
-    private Double winBalance=0.0;
+    @Column(name = "deposit_balance",nullable = false, columnDefinition="Decimal(10,2)")
+    private Double depositBalance;
+
+
+    @Column(name = "win_balance",nullable = false, columnDefinition="Decimal(10,2)")
+    private Double winBalance;
+
+    @OneToMany(mappedBy = "userEntity")
+    List<BidEntity> bids;
 }

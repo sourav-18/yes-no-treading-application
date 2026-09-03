@@ -1,9 +1,10 @@
-package com.ms.yes_no_treading_application.Mapper;
+package com.ms.yes_no_treading_application.mapper;
 
 
 import com.ms.yes_no_treading_application.dtos.EventCreateRequestDto;
 import com.ms.yes_no_treading_application.dtos.EventDto;
 import com.ms.yes_no_treading_application.entities.EventEntity;
+import com.ms.yes_no_treading_application.entities.types.EventStatusType;
 
 public class EventMapper {
     public static EventDto toDto(EventEntity event){
@@ -19,11 +20,11 @@ public class EventMapper {
     }
 
     public static EventEntity toEntity(EventCreateRequestDto eventCreateRequestDto){
-        return EventEntity.builder().title(eventCreateRequestDto.getTitle())
+       return EventEntity.builder().title(eventCreateRequestDto.getTitle())
                 .description(eventCreateRequestDto.getDescription())
                 .yesPrice(eventCreateRequestDto.getYesPrice())
                 .noPrice(eventCreateRequestDto.getNoPrice())
-                .status(eventCreateRequestDto.getStatus())
+                .status(eventCreateRequestDto.getStatus()==null? EventStatusType.upcoming:eventCreateRequestDto.getStatus())
                 .eventStartDateTime(eventCreateRequestDto.getEventStartDateTime())
                 .build();
     }

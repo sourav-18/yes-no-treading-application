@@ -4,6 +4,7 @@ import com.ms.yes_no_treading_application.entities.types.EventStatusType;
 import com.ms.yes_no_treading_application.entities.types.OptionType;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,8 +14,8 @@ public class EventDto {
     private Long id;
     private String title;
     private String description;
-    private float yesPrice;
-    private float noPrice;
+    private Double yesPrice;
+    private Double noPrice;
     private EventStatusType status;
     private LocalDateTime eventStartDateTime;
     private OptionType winner;
