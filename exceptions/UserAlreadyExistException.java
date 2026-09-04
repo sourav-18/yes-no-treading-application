@@ -6,12 +6,12 @@ import lombok.Getter;
 public class UserAlreadyExistException extends RuntimeException {
     private final String key;
     private final String value;
-    private final int StatusCode;
+    private final int statusCode;
 
     public UserAlreadyExistException(String key, String value) {
         super("User already exist with "+key+":"+value);
         this.key=key;
         this.value=value;
-        this.StatusCode=400;
+        this.statusCode=400;
     }
 }

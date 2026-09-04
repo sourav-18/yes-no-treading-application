@@ -1,5 +1,6 @@
 package com.ms.yes_no_treading_application.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ms.yes_no_treading_application.entities.types.EventStatusType;
 import com.ms.yes_no_treading_application.entities.types.OptionType;
 import jakarta.persistence.*;
@@ -43,6 +44,7 @@ public class EventEntity extends BaseEntity{
     private OptionType winner;
 
     @OneToMany(mappedBy = "eventEntity")
+    @JsonIgnore
     List<BidEntity> bids;
 
     //todo -> createdBy , updatedBy

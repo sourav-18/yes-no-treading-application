@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public class DataNotFoundException extends RuntimeException {
     private final String key;
-    private final int StatusCode;
+    private final int statusCode;
 
     public DataNotFoundException(String key) {
         super(key+" not found");
         this.key = key;
-        this.StatusCode=400;
+        this.statusCode=400;
     }
 }

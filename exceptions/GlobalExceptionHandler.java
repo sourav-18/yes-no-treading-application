@@ -55,13 +55,10 @@ public class GlobalExceptionHandler {
                 .body(new ApiErrorResponseDto(ex.getStatusCode(),ex.getMessage()));
     }
 
-////    @ExceptionHandler(DateTimeParseException.class)
-//    public ResponseEntity<ApiErrorResponseDto> handleInvalidDateTime(DateTimeParseException ex) {
-//        System.out.println("enter");
-//        System.out.println(ex.getParsedString());
-//        return null;
-////        return ResponseEntity.status(ex.getStatusCode())
-////                .body(new ApiErrorResponseDto(ex.getStatusCode(),ex.getMessage()));
-//    }
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<ApiErrorResponseDto> handleInsufficientBalanceException(InsufficientBalanceException ex) {
+        return ResponseEntity.status(ex.getStatusCode())
+                .body(new ApiErrorResponseDto(ex.getStatusCode(),ex.getMessage()));
+    }
 
 }

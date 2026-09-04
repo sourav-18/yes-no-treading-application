@@ -5,14 +5,21 @@ import com.ms.yes_no_treading_application.Repository.EventRepository;
 import com.ms.yes_no_treading_application.Repository.UserRepository;
 import com.ms.yes_no_treading_application.dtos.BidCreateRequestDto;
 import com.ms.yes_no_treading_application.dtos.BidDto;
+import com.ms.yes_no_treading_application.dtos.LatestBidEventDto;
 import com.ms.yes_no_treading_application.entities.BidEntity;
 import com.ms.yes_no_treading_application.entities.EventEntity;
 import com.ms.yes_no_treading_application.entities.UserEntity;
 import com.ms.yes_no_treading_application.exceptions.DataNotFoundException;
+import com.ms.yes_no_treading_application.exceptions.InsufficientBalanceException;
 import com.ms.yes_no_treading_application.mapper.BidMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +38,7 @@ public class BidService {
                .orElseThrow(()->new DataNotFoundException("userId"));
 
        if(user.getDepositBalance()+user.getWinBalance()< body.getPrice()){
-           throw new RuntimeException("Insufficient balance");
+           throw new InsufficientBalanceException(body.getPrice(),user);
        }
 
        double deductPrice= body.getPrice();
@@ -49,7 +56,7 @@ public class BidService {
        }
 
        if(deductPrice!=0){
-           throw new RuntimeException("Internal error");
+           throw new InsufficientBalanceException(body.getPrice(),user);
        }
 
         BidEntity newBid= bidRepository.save( BidMapper.toEntity(
@@ -57,5 +64,15 @@ public class BidService {
         ));
 
        return BidMapper.toDto(newBid);
+    }
+
+    public List<LatestBidEventDto> myList(Long userId, Integer page, Integer limit){
+        Pageable pageable = PageRequest.of(page - 1, limit,
+                Sort.unsorted());
+        List<LatestBidEventDto> latestBidEvents = bidRepository.getLatestBidEventIds(userId, pageable);
+        if(latestBidEvents.isEmpty()){
+            throw new DataNotFoundException("BidEvents");
+        }
+        return latestBidEvents;
     }
 }
