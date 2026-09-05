@@ -19,6 +19,6 @@ public class YesNoTreadingApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		matchingService.matchHandler();
+//		matchingService.matchHandler();
 	}
 }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -59,8 +60,10 @@ public class BidService {
            throw new InsufficientBalanceException(body.getPrice(),user);
        }
 
+        String groupId= UUID.randomUUID()+"_"+userId;
+
         BidEntity newBid= bidRepository.save( BidMapper.toEntity(
-                body,event,userRepository.getReferenceById(userId)
+                body,event,userRepository.getReferenceById(userId),groupId
         ));
 
        return BidMapper.toDto(newBid);

@@ -32,4 +32,9 @@ public interface BidRepository extends JpaRepository<BidEntity,Long> {
     List<BidStatsDbResDto> getBidStats(@Param("eventId") Long eventId, @Param("status")BidStatusType status);
 
 
+//    @Query("""
+//            SELECT b.id, b.UserEntity.id, b.price,bid_group_id
+//            FROM BidEntity b WHERE status = :status and event_id = ? and choose_option_id = ? and amount = ? and id > ? ORDER BY id ASC LIMIT ?
+//            """)
+//    List<Object> bidsMatch();
 }

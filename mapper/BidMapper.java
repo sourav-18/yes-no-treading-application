@@ -7,14 +7,17 @@ import com.ms.yes_no_treading_application.entities.EventEntity;
 import com.ms.yes_no_treading_application.entities.UserEntity;
 import com.ms.yes_no_treading_application.entities.types.BidStatusType;
 
+import java.util.UUID;
+
 public class BidMapper {
-    public static BidEntity toEntity(BidCreateRequestDto bidCreateRequestDto, EventEntity event, UserEntity user){
+    public static BidEntity toEntity(BidCreateRequestDto bidCreateRequestDto, EventEntity event, UserEntity user, String groupId){
        return BidEntity.builder()
                 .price(bidCreateRequestDto.getPrice())
                 .option(bidCreateRequestDto.getOption())
                 .status(BidStatusType.ideal)
                 .eventEntity(event)
                 .userEntity(user)
+                .groupId(groupId)
                 .build();
     }
     public static BidDto toDto(BidEntity bid){

@@ -26,7 +26,9 @@ public class BidController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponseDto<List<LatestBidEventDto>>> getMyBids(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer limit){
+    public ResponseEntity<ApiResponseDto<List<LatestBidEventDto>>> getMyBids
+            (@RequestParam(defaultValue = "1") Integer page,
+             @RequestParam(defaultValue = "10") Integer limit){
         List<LatestBidEventDto> latestBidEvents= bidService.myList(1l, page, limit);
         ApiResponseDto<List<LatestBidEventDto>> apiResponse =
                 new ApiResponseDto<>(HttpStatus.OK.value(), "Latest bidEvent fetch successfully",latestBidEvents);

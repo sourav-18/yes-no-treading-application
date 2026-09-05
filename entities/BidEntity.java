@@ -6,6 +6,8 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "bids")
 @Getter
@@ -15,7 +17,7 @@ import lombok.*;
 @AllArgsConstructor
 public class BidEntity extends BaseEntity{
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="Decimal(3,2)")
     private Double price;
 
     @Column(nullable = false)
@@ -31,5 +33,13 @@ public class BidEntity extends BaseEntity{
     private EventEntity eventEntity;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private BidStatusType status;
+
+    @Column(nullable = false)
+    private String groupId;
+
+    @OneToOne
+    @JoinColumn(name = "transaction_id")
+    private TransactionEntity transaction;
 }
