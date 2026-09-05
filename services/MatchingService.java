@@ -49,12 +49,23 @@ public class MatchingService {
         noBidStats.sort((a,b)->Double.compare(a.getPrice(),b.getPrice()));
 
         List<MatchBidInfo>exactMatch=new ArrayList<>();
+        List<MatchBidInfo>highMatch=new ArrayList<>();
 
         //exact match
         int yestStart=0,noStart=noBidStats.size()-1;
         while (yestStart<yesBidStats.size()&&noStart>=0){
             BidStatsDbResDto yes=yesBidStats.get(yestStart);
             BidStatsDbResDto no=noBidStats.get(noStart);
+
+            if(yes.getTotalCount().equals(0L)) {
+                yestStart++;
+                continue;
+            }
+            if(no.getTotalCount().equals(0L)) {
+                noStart--;
+                continue;
+            }
+
             if(yes.getPrice()+no.getPrice()==10){
                 long minBidCount=Math.min(yes.getTotalCount(),no.getTotalCount());
                 yes.setTotalCount(yes.getTotalCount()-minBidCount);
@@ -76,6 +87,40 @@ public class MatchingService {
                 yestStart++;
             }
         }
+
+        //over 10 bids match
+        yestStart=0;
+        noStart=noBidStats.size()-1;
+
+        while (yestStart<yesBidStats.size()&&noStart>=0){
+            BidStatsDbResDto yes=yesBidStats.get(yestStart);
+            BidStatsDbResDto no=noBidStats.get(noStart);
+            if(yes.getTotalCount().equals(0L)) {
+                yestStart++;
+                continue;
+            }
+            if(no.getTotalCount().equals(0L)) {
+                noStart--;
+                continue;
+            }
+            if(yes.getPrice()+no.getPrice()>10){
+                long minBidCount=Math.min(yes.getTotalCount(),no.getTotalCount());
+                yes.setTotalCount(yes.getTotalCount()-minBidCount);
+                no.setTotalCount(no.getTotalCount()-minBidCount);
+
+                MatchBidInfo bidInfo = MatchBidInfo.builder()
+                        .eventId(eventId)
+                        .bidCount(minBidCount)
+                        .yesPrice(yes.getPrice())
+                        .noPrice(no.getPrice())
+                        .build();
+                highMatch.add(bidInfo);
+            }else{
+                yestStart++;
+            }
+        }
+
+
 
 
     }
