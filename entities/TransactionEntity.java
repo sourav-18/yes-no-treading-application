@@ -20,7 +20,8 @@ public class TransactionEntity extends BaseEntity{
     @JoinColumn(name = "user_id",nullable = false)
     private UserEntity user;
 
-    @OneToOne(mappedBy = "transaction")
+    @ManyToOne
+    @JoinColumn(name = "bid_id")
     private BidEntity bid;
 
     @Enumerated(EnumType.STRING)

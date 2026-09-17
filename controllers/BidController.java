@@ -18,10 +18,10 @@ public class BidController {
     private final BidService bidService;
 
     @PostMapping
-    public ResponseEntity<ApiResponseDto<BidDto>> create(@Valid @RequestBody BidCreateRequestDto bidCreateRequestDto){
-       BidDto bidDto= bidService.create(bidCreateRequestDto,1l);
+    public ResponseEntity<ApiResponseDto<?>> create(@Valid @RequestBody BidCreateRequestDto bidCreateRequestDto){
+       bidService.create(bidCreateRequestDto,2l);
         ApiResponseDto<BidDto> apiResponse =
-                new ApiResponseDto<>(HttpStatus.CREATED.value(), "Event created successfully",bidDto);
+                new ApiResponseDto<>(HttpStatus.CREATED.value(), "bid created successfully",null);
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 

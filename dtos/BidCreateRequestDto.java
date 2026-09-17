@@ -6,11 +6,13 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BidCreateRequestDto {
 
     @NotNull
@@ -25,6 +27,7 @@ public class BidCreateRequestDto {
     private OptionType option;
 
     @Min(1)
-    @Max(100)
+//    @Max(100)
+    @NotNull
     private Integer quantity;
 }

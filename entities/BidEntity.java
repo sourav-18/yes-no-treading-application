@@ -1,11 +1,13 @@
 package com.ms.yes_no_treading_application.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ms.yes_no_treading_application.entities.types.BidStatusType;
 import com.ms.yes_no_treading_application.entities.types.OptionType;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -39,7 +41,7 @@ public class BidEntity extends BaseEntity{
     @Column(nullable = false)
     private String groupId;
 
-    @OneToOne
-    @JoinColumn(name = "transaction_id")
-    private TransactionEntity transaction;
+    @OneToMany(mappedBy = "bid")
+    @JsonIgnore
+    private List<TransactionEntity> transaction;
 }
